@@ -883,13 +883,10 @@ def build():
 def main():
     img = build()
     here = os.path.dirname(os.path.abspath(__file__))
-    out_path = os.path.join(here, "entry.png")
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or here
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "entry.png")
     img.save(out_path, format="JPEG", quality=90)
-    try:
-        os.makedirs("/output", exist_ok=True)
-        shutil.copyfile(out_path, "/output/entry.png")
-    except Exception:
-        pass
     import hashlib
     with open(out_path, "rb") as fh:
         data = fh.read()
